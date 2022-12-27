@@ -1,8 +1,9 @@
 package list
 
 import (
+	"context"
 	"fmt"
-	"log"
+	"text/tabwriter"
 	"time"
 
 	"github.com/MakeNowJust/heredoc"
@@ -45,14 +46,7 @@ func listInputsCmd() *cobra.Command {
 			ctx, cancel := cfg.GetClientCallContext(time.Second * 5)
 			defer cancel()
 
-			resp, err := client.ListInputs(ctx, &v1beta1.ListInputsRequest{})
-			if err != nil {
-				return fmt.Errorf("listing inputs: %w", err)
-			}
-			for _, input := range resp.Input {
-				log.Println(input.Id, input.Title, input.Status)
-			}
-			return nil
+			return runList(ctx, client, cmd)
 		},
 	}
 
@@ -60,4 +54,21 @@ func listInputsCmd() *cobra.Command {
 	fl.StringP("type", "t", "", "[option] Input type filter")
 
 	return cmd
+}
+
+func runList(ctx context.Context, client v1beta1.InputsClient, cmd *cobra.Command) error {
+	resp, err := client.ListInputs(ctx, &v1beta1.ListInputsRequest{})
+	if err != nil {
+		return fmt.Errorf("listing inputs: %w", err)
+	}
+
+	w := tabwriter.NewWriter(cmd.OutOrStdout(), 0, 0, 1, ' ', 0)
+	w.Flush()
+
+	for _, input := range resp.Input {
+		cmd.Println(input.Id, input.Title, input.Status)
+		fmt.Fprintln(w, input.Id, "\t", input.Title, "\t", input.Status)
+	}
+
+	return nil
 }

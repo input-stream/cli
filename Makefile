@@ -16,6 +16,11 @@ protos:
 	mv build/stack/auth/v1beta1/build/stack/auth/v1beta1/*.pb.go build/stack/auth/v1beta1
 	rm -rf build/stack/auth/v1beta1/build
 
+.PHONY: mocks
+mocks:
+	mockery --output mocks --dir=build/stack/auth/v1beta1 --name=AuthServiceClient 
+	mockery --output mocks --dir=build/stack/inputstream/v1beta1 --name=UsersClient 
+	mockery --output mocks --dir=build/stack/inputstream/v1beta1 --name=InputsClient 
 
 .PHONY: tidy
 tidy:

@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package stream.input.v1beta1;
+package build.stack.inputstream.v1beta1;
 
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/input-stream/input/stream/v1beta1";
+option go_package = "github.com/input-stream/stream/input/v1beta1";
 option java_package = "stream.input.v1beta1";
 
 service Users {

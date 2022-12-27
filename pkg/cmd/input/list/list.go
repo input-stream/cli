@@ -1,10 +1,15 @@
 package list
 
 import (
+	"context"
+	"fmt"
+	"log"
+
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
 
 	"github.com/input-stream/cli/pkg/config"
+	"github.com/input-stream/cli/stream/input/v1beta1"
 )
 
 func NewCmds() []*cobra.Command {
@@ -30,14 +35,20 @@ func listInputsCmd() *cobra.Command {
 			$ stream-cli chat upload-file --channel-type messaging --channel-id redteam --user-id "user-1" --file "./snippet.txt"
 		`),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			c, err := config.GetConfig(cmd).GetClient(cmd)
+			client, err := config.GetConfig(cmd).GetInputsClient(cmd)
 			if err != nil {
 				return err
 			}
 
-			inputType, _ := cmd.Flags().GetString("type")
+			// inputType, _ := cmd.Flags().GetString("type")
 
-			cmd.Printf("Listing inputs: %v\n", inputType)
+			resp, err := client.ListInputs(context.Background(), &v1beta1.ListInputsRequest{})
+			if err != nil {
+				return fmt.Errorf("listing inputs: %w", err)
+			}
+			for _, input := range resp.Input {
+				log.Println(input.Id, input.Title, input.Status)
+			}
 			return nil
 		},
 	}

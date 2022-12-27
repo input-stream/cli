@@ -6,6 +6,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
 
+	"github.com/input-stream/cli/pkg/cmd/input"
 	"github.com/input-stream/cli/pkg/cmd/login"
 	"github.com/input-stream/cli/pkg/config"
 	"github.com/input-stream/cli/pkg/version"
@@ -36,6 +37,7 @@ func NewCmd() *cobra.Command {
 
 	root.AddCommand(
 		login.NewRootCmd(),
+		input.NewRootCmd(),
 	)
 
 	cobra.OnInitialize(config.GetInitConfig(root, cfgPath))

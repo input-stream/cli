@@ -49,6 +49,9 @@ register_toolchains("@build_stack_rules_proto//toolchain:standard")
 # Without this override org_golang_google_grpc is falling back to 1.27.0.
 go_repository(
     name = "org_golang_google_grpc",
+    build_directives = [
+        "gazelle:resolve go go google.golang.org/protobuf/types/known/anypb @protoapis//google/protobuf:any_go_proto",
+    ],
     build_file_proto_mode = "disable_global",
     importpath = "google.golang.org/grpc",
     sum = "h1:E1eGv1FTqoLIdnBCZufiSHgKjlqG6fKFf6pPWtMTh8U=",

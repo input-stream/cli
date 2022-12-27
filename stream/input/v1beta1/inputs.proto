@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package stream.input.v1beta1;
+package build.stack.inputstream.v1beta1;
 
 import "google/protobuf/any.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "stream/input/v1beta1/users.proto";
 
-option go_package = "github.com/input-stream/input/stream/v1beta1";
+option go_package = "github.com/input-stream/stream/input/v1beta1";
 option java_package = "stream.input.v1beta1";
 
 service Inputs {
@@ -60,7 +60,7 @@ message Input {
     Status status = 11;
     // The user that published this item.  This is only 
     // populated via a get operation.
-    stream.input.v1beta1.User author = 12;
+    build.stack.inputstream.v1beta1.User author = 12;
     // The subtitle of the post
     string subtitle = 13;
     // Tags associated with the post

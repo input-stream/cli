@@ -44,8 +44,8 @@ proto_gazelle(
     command = "update",
     gazelle = ":gazelle-protobuf",
     imports = [
-        "@googleapis//:imports.csv",
-        "@protoapis//:imports.csv",
+        # "@googleapis//:imports.csv",
+        # "@protoapis//:imports.csv",
     ],
 )
 

@@ -36,7 +36,7 @@ func NewInputsClient(cc grpc.ClientConnInterface) InputsClient {
 
 func (c *inputsClient) CreateInput(ctx context.Context, in *CreateInputRequest, opts ...grpc.CallOption) (*Input, error) {
 	out := new(Input)
-	err := c.cc.Invoke(ctx, "/stream.input.v1beta1.Inputs/CreateInput", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Inputs/CreateInput", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (c *inputsClient) CreateInput(ctx context.Context, in *CreateInputRequest, 
 }
 
 func (c *inputsClient) WatchInput(ctx context.Context, in *WatchInputRequest, opts ...grpc.CallOption) (Inputs_WatchInputClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Inputs_ServiceDesc.Streams[0], "/stream.input.v1beta1.Inputs/WatchInput", opts...)
+	stream, err := c.cc.NewStream(ctx, &Inputs_ServiceDesc.Streams[0], "/build.stack.inputstream.v1beta1.Inputs/WatchInput", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (x *inputsWatchInputClient) Recv() (*Input, error) {
 
 func (c *inputsClient) UpdateInput(ctx context.Context, in *UpdateInputRequest, opts ...grpc.CallOption) (*UpdateInputResponse, error) {
 	out := new(UpdateInputResponse)
-	err := c.cc.Invoke(ctx, "/stream.input.v1beta1.Inputs/UpdateInput", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Inputs/UpdateInput", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (c *inputsClient) UpdateInput(ctx context.Context, in *UpdateInputRequest, 
 
 func (c *inputsClient) RemoveInput(ctx context.Context, in *RemoveInputRequest, opts ...grpc.CallOption) (*RemoveInputResponse, error) {
 	out := new(RemoveInputResponse)
-	err := c.cc.Invoke(ctx, "/stream.input.v1beta1.Inputs/RemoveInput", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Inputs/RemoveInput", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func (c *inputsClient) RemoveInput(ctx context.Context, in *RemoveInputRequest, 
 
 func (c *inputsClient) GetInput(ctx context.Context, in *GetInputRequest, opts ...grpc.CallOption) (*Input, error) {
 	out := new(Input)
-	err := c.cc.Invoke(ctx, "/stream.input.v1beta1.Inputs/GetInput", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Inputs/GetInput", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func (c *inputsClient) GetInput(ctx context.Context, in *GetInputRequest, opts .
 
 func (c *inputsClient) ListInputs(ctx context.Context, in *ListInputsRequest, opts ...grpc.CallOption) (*ListInputsResponse, error) {
 	out := new(ListInputsResponse)
-	err := c.cc.Invoke(ctx, "/stream.input.v1beta1.Inputs/ListInputs", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Inputs/ListInputs", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -169,7 +169,7 @@ func _Inputs_CreateInput_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/stream.input.v1beta1.Inputs/CreateInput",
+		FullMethod: "/build.stack.inputstream.v1beta1.Inputs/CreateInput",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InputsServer).CreateInput(ctx, req.(*CreateInputRequest))
@@ -208,7 +208,7 @@ func _Inputs_UpdateInput_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/stream.input.v1beta1.Inputs/UpdateInput",
+		FullMethod: "/build.stack.inputstream.v1beta1.Inputs/UpdateInput",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InputsServer).UpdateInput(ctx, req.(*UpdateInputRequest))
@@ -226,7 +226,7 @@ func _Inputs_RemoveInput_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/stream.input.v1beta1.Inputs/RemoveInput",
+		FullMethod: "/build.stack.inputstream.v1beta1.Inputs/RemoveInput",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InputsServer).RemoveInput(ctx, req.(*RemoveInputRequest))
@@ -244,7 +244,7 @@ func _Inputs_GetInput_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/stream.input.v1beta1.Inputs/GetInput",
+		FullMethod: "/build.stack.inputstream.v1beta1.Inputs/GetInput",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InputsServer).GetInput(ctx, req.(*GetInputRequest))
@@ -262,7 +262,7 @@ func _Inputs_ListInputs_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/stream.input.v1beta1.Inputs/ListInputs",
+		FullMethod: "/build.stack.inputstream.v1beta1.Inputs/ListInputs",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InputsServer).ListInputs(ctx, req.(*ListInputsRequest))
@@ -274,7 +274,7 @@ func _Inputs_ListInputs_Handler(srv interface{}, ctx context.Context, dec func(i
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Inputs_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "stream.input.v1beta1.Inputs",
+	ServiceName: "build.stack.inputstream.v1beta1.Inputs",
 	HandlerType: (*InputsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

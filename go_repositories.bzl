@@ -1124,6 +1124,9 @@ def go_repositories():
         importpath = "google.golang.org/genproto",
         sum = "h1:S9GbmC1iCgvbLyAokVCwiO6tVIrU9Y7c5oMx1V/ki/Y=",
         version = "v0.0.0-20221024183307-1bc688fe9f3e",
+        build_directives = [
+            "gazelle:resolve go go google.golang.org/protobuf/types/known/anypb @protoapis//google/protobuf:any_go_proto",
+        ],
     )
 
     go_repository(
@@ -1132,6 +1135,9 @@ def go_repositories():
         importpath = "google.golang.org/protobuf",
         sum = "h1:d0NfwRgPtno5B1Wa6L2DAG+KivqkdutMf1UhdNx175w=",
         version = "v1.28.1",
+        build_directives = [
+            "gazelle:resolve go go google.golang.org/protobuf/types/known/anypb @protoapis//google/protobuf:any_go_proto",
+        ],
     )
     go_repository(
         name = "org_golang_x_crypto",

@@ -6,6 +6,7 @@ go_library(
     importpath = "github.com/input-stream/cli/pkg/cmd/root",
     visibility = ["//visibility:public"],
     deps = [
+        "//pkg/cmd/input",
         "//pkg/cmd/login",
         "//pkg/config",
         "//pkg/version",

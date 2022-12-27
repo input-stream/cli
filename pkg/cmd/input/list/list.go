@@ -63,12 +63,12 @@ func runList(ctx context.Context, client v1beta1.InputsClient, cmd *cobra.Comman
 	}
 
 	w := tabwriter.NewWriter(cmd.OutOrStdout(), 0, 0, 1, ' ', 0)
-	w.Flush()
+	fmt.Fprintln(w, "ID", "\t", "TITLE", "\t", "STATUS")
 
 	for _, input := range resp.Input {
-		cmd.Println(input.Id, input.Title, input.Status)
 		fmt.Fprintln(w, input.Id, "\t", input.Title, "\t", input.Status)
 	}
 
+	w.Flush()
 	return nil
 }

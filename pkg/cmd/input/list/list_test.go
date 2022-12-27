@@ -3,6 +3,7 @@ package list
 import (
 	"bytes"
 	"context"
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -18,17 +19,30 @@ func TestRunList(t *testing.T) {
 		inputs []*ispb.Input
 		want   string
 	}{
-		"degenerate": {},
+		"degenerate": {
+			want: "ID   TITLE   STATUS\n",
+		},
 		"success": {
 			inputs: []*ispb.Input{
 				{
 					Id:     "id1",
 					Login:  "octocat",
-					Title:  "Fake Title",
+					Title:  "Cat",
+					Status: ispb.Input_STATUS_DRAFT,
+				},
+				{
+					Id:     "id2",
+					Login:  "octodog",
+					Title:  "Dog",
 					Status: ispb.Input_STATUS_DRAFT,
 				},
 			},
-			want: "id1 Fake Title STATUS_DRAFT\n",
+			want: strings.Join([]string{
+				"ID    TITLE   STATUS",
+				"id1   Cat     STATUS_DRAFT",
+				"id2   Dog     STATUS_DRAFT",
+				"",
+			}, "\n"),
 		},
 	} {
 		t.Run(name, func(t *testing.T) {

@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "input",
+    srcs = ["root.go"],
+    importpath = "github.com/input-stream/cli/pkg/cmd/input",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/cmd/input/list",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)

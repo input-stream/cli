@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package stream.input.v1beta1;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "stream/input/v1beta1/users.proto";
+
+option go_package = "github.com/input-stream/input/stream/v1beta1";
+option java_package = "stream.input.v1beta1";
+
+service Inputs {
+    rpc CreateInput(CreateInputRequest) returns (Input) {};
+    rpc WatchInput(WatchInputRequest) returns (stream Input) {};
+    rpc UpdateInput(UpdateInputRequest) returns (UpdateInputResponse) {};
+    rpc RemoveInput(RemoveInputRequest) returns (RemoveInputResponse) {};
+    rpc GetInput(GetInputRequest) returns (Input) {};
+    rpc ListInputs(ListInputsRequest) returns (ListInputsResponse) {};
+}
+
+message Input {
+    enum Type {
+        TYPE_UNKNOWN = 0;
+        TYPE_ANY = 1;
+        TYPE_TWEET = 2;
+        TYPE_SHORT_POST = 3;
+        TYPE_LONG_POST = 4;
+        TYPE_IMAGE = 5;
+        TYPE_PRESENTATION = 6;
+    }
+
+    enum Status {
+        STATUS_UNKNOWN = 0;
+        STATUS_DRAFT = 1;
+        STATUS_PUBLISHED = 2;
+    }
+
+    // the owner of the post
+    string login = 1;
+    // a uuid for this post
+    string id = 2;
+    // title of the post
+    string title = 3;
+    // a summary of the post
+    string abstract = 4;
+    // a URL for a representative image
+    string image_url = 5;
+    // the content value, if masked
+    InputContent content = 6;
+    // Date when post was created
+    google.protobuf.Timestamp created_at = 7;
+    // Date when post content was last updated
+    google.protobuf.Timestamp updated_at = 8;
+    // the type of input this is
+    Type type = 9;
+    // the post identifier (a simple number)
+    int64 pid = 10;
+    // The status of this input (published or not)
+    Status status = 11;
+    // The user that published this item.  This is only 
+    // populated via a get operation.
+    stream.input.v1beta1.User author = 12;
+    // The subtitle of the post
+    string subtitle = 13;
+    // Tags associated with the post
+    repeated string tag = 14;
+    // The title slug
+    string title_slug = 15;
+    // Date when post content was last published
+    google.protobuf.Timestamp published_at = 16;
+    // the URL where the input can be viewed
+    string html_url = 17;
+    // the owner of the input
+    string owner = 18;
+}
+
+message CreateInputRequest {
+    Input input = 1;
+}
+
+message UpdateInputRequest {
+    Input input = 1;
+    google.protobuf.FieldMask mask = 2;
+}
+
+message UpdateInputResponse {
+    Input input = 1;
+    google.protobuf.FieldMask mask = 2;
+}
+
+message RemoveInputRequest {
+    string id = 1;
+}
+
+message RemoveInputResponse {
+}
+
+message GetInputRequest {
+    InputFilterOptions filter = 1;
+    // optional mask for specifying a subset of fields
+    google.protobuf.FieldMask mask = 4;
+}
+
+message WatchInputRequest {
+    string owner = 1;
+    string id = 2;
+    google.protobuf.FieldMask mask = 3;
+
+    // The login token, in the event that the streaming endpoint does not
+    // support headers.
+    string bearer_token = 4;
+}
+
+message ListInputsRequest {
+    InputFilterOptions filter = 1;
+    // flag to indicate that the caller would like non-published items.  It is
+    // an error to request this without proper metadata credentials.
+    bool want_private = 2;
+}
+
+message InputFilterOptions {
+    // filter by owner
+    string owner = 1;
+    // filter by login name
+    string login = 2;
+    // filter by id
+    string id = 3;
+    // filter by title_slug
+    string title_slug = 4;
+    // filter by tag
+    string tag = 5;
+    // filter by input status
+    Input.Status status = 6;
+}
+
+message ListInputsResponse {
+    repeated Input input = 1;
+}
+
+message InputContent {
+    oneof value {
+        // any type, for dynamic case
+        google.protobuf.Any any = 3;
+        // short post form
+        ShortPostInputContent short_post = 4;
+    }
+}
+
+message ShortPostInputContent {
+    string markdown = 1;
+    string html = 2;
+}

@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "list",
+    srcs = ["list.go"],
+    importpath = "github.com/input-stream/cli/pkg/cmd/input/list",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/config",
+        "@com_github_makenowjust_heredoc//:heredoc",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)

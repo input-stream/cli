@@ -6,6 +6,7 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/input-stream/cli/cmd/istream",
     visibility = ["//visibility:private"],
+    deps = ["//pkg/cmd/root"],
 )
 
 go_binary(

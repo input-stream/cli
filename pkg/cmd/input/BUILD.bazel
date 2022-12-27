@@ -6,6 +6,7 @@ go_library(
     importpath = "github.com/input-stream/cli/pkg/cmd/input",
     visibility = ["//visibility:public"],
     deps = [
+        "//pkg/cmd/input/get",
         "//pkg/cmd/input/list",
         "@com_github_spf13_cobra//:cobra",
     ],

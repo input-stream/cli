@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package input.stream.v1beta1;
+
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/input-stream/input/stream/v1beta1";
+option java_package = "stream.input.v1beta1";
+
+service Users {
+    rpc GetUser(GetUserRequest) returns (User) {};
+    rpc UpdateUser(UpdateUserRequest) returns (User) {};
+    rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {};
+}
+
+message User {
+    string login = 1;
+    string name = 2;
+    string avatar_url = 3;
+    string bio = 4;
+    google.protobuf.Timestamp created_at = 5;
+    string email = 6;
+    bool is_org = 7;
+    string owner = 8;
+}
+
+message CreateUserRequest {
+    User user = 1;
+}
+
+message GetUserRequest {
+    string login = 1;
+}
+
+message ListUsersRequest {
+}
+
+message ListUsersResponse {
+    repeated User user = 1;
+}
+
+message UpdateUserRequest {
+    User user = 1;
+    google.protobuf.FieldMask mask = 2;
+}

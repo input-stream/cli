@@ -1,0 +1,59 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load(":platforms.bzl", "platforms")
+
+go_library(
+    name = "istream_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/input-stream/cli/cmd/istream",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "istream",
+    embed = [":istream_lib"],
+    visibility = ["//visibility:public"],
+)
+
+[
+    go_binary(
+        name = "istream_%s_%s" % (
+            platform.os,
+            platform.arch,
+        ),
+        embed = [":istream_lib"],
+        gc_linkopts = platform.gc_linkopts,
+        goarch = platform.arch,
+        goos = platform.os,
+        pure = "on",
+        static = "on",
+        visibility = ["//visibility:public"],
+    )
+    for platform in platforms
+]
+
+[
+    genrule(
+        name = "istream_%s_%s_zip" % (
+            platform.os,
+            platform.arch,
+        ),
+        srcs = ["istream_%s_%s" % (
+            platform.os,
+            platform.arch,
+        )],
+        outs = ["istream_%s_%s.zip" % (
+            platform.os,
+            platform.arch,
+        )],
+        cmd = """
+    cp $(location istream_{os}_{arch}) istream
+    $(location @bazel_tools//tools/zip:zipper) c $@ istream
+    """.format(
+            arch = platform.arch,
+            os = platform.os,
+        ),
+        tools = ["@bazel_tools//tools/zip:zipper"],
+        visibility = ["//visibility:public"],
+    )
+    for platform in platforms
+]

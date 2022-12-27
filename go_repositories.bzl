@@ -515,6 +515,14 @@ def go_repositories():
         version = "v0.8.0",
     )
     go_repository(
+        name = "com_github_skratchdot_open_golang",
+        build_file_proto_mode = "disable_global",
+        importpath = "github.com/skratchdot/open-golang",
+        sum = "h1:JIAuq3EEf9cgbU6AtGPK4CTG3Zf6CKMNqf0MHTggAUA=",
+        version = "v0.0.0-20200116055534-eef842397966",
+    )
+
+    go_repository(
         name = "com_github_spf13_afero",
         build_file_proto_mode = "disable_global",
         importpath = "github.com/spf13/afero",
@@ -1120,24 +1128,24 @@ def go_repositories():
     )
     go_repository(
         name = "org_golang_google_genproto",
+        build_directives = [
+            "gazelle:resolve go go google.golang.org/protobuf/types/known/anypb @protoapis//google/protobuf:any_go_proto",
+        ],
         build_file_proto_mode = "disable_global",
         importpath = "google.golang.org/genproto",
         sum = "h1:S9GbmC1iCgvbLyAokVCwiO6tVIrU9Y7c5oMx1V/ki/Y=",
         version = "v0.0.0-20221024183307-1bc688fe9f3e",
-        build_directives = [
-            "gazelle:resolve go go google.golang.org/protobuf/types/known/anypb @protoapis//google/protobuf:any_go_proto",
-        ],
     )
 
     go_repository(
         name = "org_golang_google_protobuf",
+        build_directives = [
+            "gazelle:resolve go go google.golang.org/protobuf/types/known/anypb @protoapis//google/protobuf:any_go_proto",
+        ],
         build_file_proto_mode = "disable_global",
         importpath = "google.golang.org/protobuf",
         sum = "h1:d0NfwRgPtno5B1Wa6L2DAG+KivqkdutMf1UhdNx175w=",
         version = "v1.28.1",
-        build_directives = [
-            "gazelle:resolve go go google.golang.org/protobuf/types/known/anypb @protoapis//google/protobuf:any_go_proto",
-        ],
     )
     go_repository(
         name = "org_golang_x_crypto",

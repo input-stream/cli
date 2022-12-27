@@ -1,15 +1,15 @@
 package list
 
 import (
-	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
 
+	"github.com/input-stream/cli/build/stack/inputstream/v1beta1"
 	"github.com/input-stream/cli/pkg/config"
-	"github.com/input-stream/cli/stream/input/v1beta1"
 )
 
 func NewCmds() []*cobra.Command {
@@ -31,18 +31,21 @@ func listInputsCmd() *cobra.Command {
 			for an application, this is can be set via API or by logging into your dashboard.
 		`),
 		Example: heredoc.Doc(`
-			# Uploads a file to 'redteam' channel of 'messaging' channel type
-			$ stream-cli chat upload-file --channel-type messaging --channel-id redteam --user-id "user-1" --file "./snippet.txt"
+			# List all
+			$ istream input list
 		`),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			client, err := config.GetConfig(cmd).GetInputsClient(cmd)
+			cfg := config.GetConfig(cmd)
+			client, err := cfg.GetInputsClient(cmd)
 			if err != nil {
 				return err
 			}
 
 			// inputType, _ := cmd.Flags().GetString("type")
+			ctx, cancel := cfg.GetClientCallContext(time.Second * 5)
+			defer cancel()
 
-			resp, err := client.ListInputs(context.Background(), &v1beta1.ListInputsRequest{})
+			resp, err := client.ListInputs(ctx, &v1beta1.ListInputsRequest{})
 			if err != nil {
 				return fmt.Errorf("listing inputs: %w", err)
 			}

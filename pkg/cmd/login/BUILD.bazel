@@ -6,7 +6,9 @@ go_library(
     importpath = "github.com/input-stream/cli/pkg/cmd/login",
     visibility = ["//visibility:public"],
     deps = [
+        "//build/stack/auth/v1beta1",
         "//pkg/config",
+        "@com_github_skratchdot_open_golang//open",
         "@com_github_spf13_cobra//:cobra",
     ],
 )

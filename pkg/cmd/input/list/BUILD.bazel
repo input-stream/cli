@@ -6,8 +6,8 @@ go_library(
     importpath = "github.com/input-stream/cli/pkg/cmd/input/list",
     visibility = ["//visibility:public"],
     deps = [
+        "//build/stack/inputstream/v1beta1",
         "//pkg/config",
-        "//stream/input/v1beta1",
         "@com_github_makenowjust_heredoc//:heredoc",
         "@com_github_spf13_cobra//:cobra",
     ],

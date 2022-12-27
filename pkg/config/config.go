@@ -1,18 +1,22 @@
 package config
 
 import (
+	"context"
 	"crypto/x509"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/metadata"
 
-	"github.com/input-stream/cli/stream/input/v1beta1"
+	aupb "github.com/input-stream/cli/build/stack/auth/v1beta1"
+	ispb "github.com/input-stream/cli/build/stack/inputstream/v1beta1"
 )
 
 const (
@@ -28,8 +32,10 @@ type Config struct {
 	// Viper uses `yaml` for serializing the object into a file.
 	// And then uses `mapstructure` to deserialize into an actual Config object.
 
-	// APIKey is sent with each request
+	// APIKey is used to get an access token
 	APIKey string `yaml:"api-key" mapstructure:"INPUTSTREAM_API_KEY"`
+	// AccessToken is used to for authentication
+	AccessToken string `yaml:"access-token" mapstructure:"INPUTSTREAM_ACCESS_TOKEN"`
 	// APIHost is the hostname for the API Server
 	APIHost string `yaml:"api-host" mapstructure:"INPUTSTREAM_API_HOST"`
 	// APIPort is the hostname for the API Server
@@ -37,6 +43,10 @@ type Config struct {
 }
 
 func (c *Config) createGrpcConnection() (*grpc.ClientConn, error) {
+	if c.conn != nil {
+		return c.conn, nil
+	}
+
 	pool, err := x509.SystemCertPool()
 	if err != nil {
 		return nil, fmt.Errorf("initializing system x509 cert pool: %w", err)
@@ -51,24 +61,47 @@ func (c *Config) createGrpcConnection() (*grpc.ClientConn, error) {
 	if err != nil {
 		return nil, fmt.Errorf("dialing api server: %w", err)
 	}
+
 	c.conn = conn
 	return conn, nil
 }
 
-func (c *Config) GetUsersClient(cmd *cobra.Command) (v1beta1.UsersClient, error) {
+func (c *Config) GetAuthClient(cmd *cobra.Command) (aupb.AuthServiceClient, error) {
 	conn, err := c.createGrpcConnection()
 	if err != nil {
 		return nil, err
 	}
-	return v1beta1.NewUsersClient(conn), nil
+	return aupb.NewAuthServiceClient(conn), nil
 }
 
-func (c *Config) GetInputsClient(cmd *cobra.Command) (v1beta1.InputsClient, error) {
+func (c *Config) GetUsersClient(cmd *cobra.Command) (ispb.UsersClient, error) {
 	conn, err := c.createGrpcConnection()
 	if err != nil {
 		return nil, err
 	}
-	return v1beta1.NewInputsClient(conn), nil
+	return ispb.NewUsersClient(conn), nil
+}
+
+func (c *Config) GetInputsClient(cmd *cobra.Command) (ispb.InputsClient, error) {
+	conn, err := c.createGrpcConnection()
+	if err != nil {
+		return nil, err
+	}
+	return ispb.NewInputsClient(conn), nil
+}
+
+// GetClientCallContext populates the md with an authorization bearer token.
+func (c *Config) GetClientCallContext(timeout time.Duration) (context.Context, context.CancelFunc) {
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, timeout)
+	if c.AccessToken == "" {
+		return ctx, cancel
+	}
+	return metadata.AppendToOutgoingContext(ctx, "authorization", "Bearer "+c.AccessToken), cancel
+}
+
+func (c *Config) Write() error {
+	return viper.WriteConfig()
 }
 
 func GetConfig(cmd *cobra.Command) *Config {

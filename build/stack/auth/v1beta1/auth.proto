@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package build.stack.auth.v1beta1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/input-stream/stream/input/v1beta1";
+option java_package = "stream.input.v1beta1";
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc DeviceLogin(DeviceLoginRequest) returns (stream DeviceLoginResponse) {}
+}
+
+message LoginRequest {
+  // a jwt token
+  string token = 1;
+}
+
+message LoginResponse {
+  // the user details
+  User user = 1;
+  // a jwt token that can be used for subsequent auth
+  string token = 2;
+  // date at which the token is expected to expire
+  google.protobuf.Timestamp expires_at = 5;
+}
+
+message DeviceLoginRequest {
+  // The name of the client application
+  string device_name = 1;
+
+  // api_token can be used to request a new access token without expecting
+  // the user to have to interact with the oauth_url.
+  string api_token = 2;
+}
+
+message DeviceLoginResponse {
+  // the URL where the user can perform oauth in the browser.
+  // this will be populated after the first stream response.
+  string oauth_url = 1;
+
+  // a boolean that signals when the device has logged in.
+  // in the case the user and token should be populated.
+  bool completed = 2;
+
+  // the user details
+  User user = 3;
+
+  // a jwt token that can be used for subsequent access (an access_token).
+  string access_token = 4;
+
+  // date at which the access_token is expected to expire
+  google.protobuf.Timestamp expires_at = 5;
+
+  // a different token that can be used for retrieving new access tokens.  This
+  // is only populated by interacting with the oauth_url.
+  string api_token = 6;
+}
+
+message User {
+  string handle = 1;
+  string domain = 2;
+  string login = 3;
+  string name = 4;
+  string avatar_url = 5;
+  string splash_url = 6;
+  string email = 7;
+  bool is_org = 8;
+
+  reserved 9, 10; // was deprecated "customer_id" field
+}

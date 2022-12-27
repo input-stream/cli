@@ -305,5 +305,5 @@ var Inputs_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "stream/input/v1beta1/inputs.proto",
+	Metadata: "build/stack/inputstream/v1beta1/inputs.proto",
 }

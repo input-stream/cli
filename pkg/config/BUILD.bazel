@@ -6,10 +6,12 @@ go_library(
     importpath = "github.com/input-stream/cli/pkg/config",
     visibility = ["//visibility:public"],
     deps = [
-        "//stream/input/v1beta1",
+        "//build/stack/auth/v1beta1",
+        "//build/stack/inputstream/v1beta1",
         "@com_github_spf13_cobra//:cobra",
         "@com_github_spf13_viper//:viper",
         "@org_golang_google_grpc//:go_default_library",
         "@org_golang_google_grpc//credentials",
+        "@org_golang_google_grpc//metadata",
     ],
 )

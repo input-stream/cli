@@ -5,9 +5,9 @@ package build.stack.inputstream.v1beta1;
 import "google/protobuf/any.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
-import "stream/input/v1beta1/users.proto";
+import "build/stack/inputstream/v1beta1/users.proto";
 
-option go_package = "github.com/input-stream/stream/input/v1beta1";
+option go_package = "github.com/input-stream/cli/build/stack/inputstream/v1beta1";
 option java_package = "stream.input.v1beta1";
 
 service Inputs {

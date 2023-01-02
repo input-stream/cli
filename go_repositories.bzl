@@ -146,6 +146,14 @@ def go_repositories():
         version = "v1.14.3",
     )
     go_repository(
+        name = "com_github_fsnotify_fsevents",
+        build_file_proto_mode = "disable_global",
+        importpath = "github.com/fsnotify/fsevents",
+        sum = "h1:/125uxJvvoSDDBPen6yUZbil8J9ydKZnnl3TWWmvnkw=",
+        version = "v0.1.1",
+    )
+
+    go_repository(
         name = "com_github_fsnotify_fsnotify",
         build_file_proto_mode = "disable_global",
         importpath = "github.com/fsnotify/fsnotify",

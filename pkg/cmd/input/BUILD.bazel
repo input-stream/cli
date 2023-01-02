@@ -7,6 +7,8 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//pkg/cmd/input/create",
+        "//pkg/cmd/input/delete",
+        "//pkg/cmd/input/edit",
         "//pkg/cmd/input/get",
         "//pkg/cmd/input/list",
         "@com_github_spf13_cobra//:cobra",

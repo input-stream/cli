@@ -20,20 +20,13 @@ func NewCmd() *cobra.Command {
 		Short: "Stream CLI",
 		Long:  "Interact with your Stream applications easily",
 		Example: heredoc.Doc(`
-			# Get Chat application settings
-			$ istream chat get-app
-
-			# List all Chat channel types
-			$ istream chat list-channel-types
-
-			# Create a new Chat user
-			$ istream chat upsert-user --properties "{\"id\":\"my-user-1\"}"
 		`),
 		Version: version.FmtVersion(),
 	}
 
 	fl := root.PersistentFlags()
 	fl.StringVar(cfgPath, "config", "", "[optional] Explicit config file path")
+	fl.String("base-dir", "", "[optional] Base directory file path")
 
 	root.AddCommand(
 		login.NewRootCmd(),

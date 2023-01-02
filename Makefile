@@ -8,9 +8,19 @@ test:
 
 .PHONY: protos
 protos:
-	bazel run //stream/input/v1beta1:v1beta1_go_compiled_sources.update
-	mv stream/input/v1beta1/stream/input/v1beta1/*.pb.go stream/input/v1beta1
-	rm -rf stream/input/v1beta1/stream
+	bazel run //build/stack/inputstream/v1beta1:v1beta1_go_compiled_sources.update
+	mv build/stack/inputstream/v1beta1/build/stack/inputstream/v1beta1/*.pb.go build/stack/inputstream/v1beta1
+	rm -rf build/stack/inputstream/v1beta1/build
+
+	bazel run //build/stack/auth/v1beta1:v1beta1_go_compiled_sources.update
+	mv build/stack/auth/v1beta1/build/stack/auth/v1beta1/*.pb.go build/stack/auth/v1beta1
+	rm -rf build/stack/auth/v1beta1/build
+
+.PHONY: mocks
+mocks:
+	mockery --output mocks --dir=build/stack/auth/v1beta1 --name=AuthServiceClient 
+	mockery --output mocks --dir=build/stack/inputstream/v1beta1 --name=UsersClient 
+	mockery --output mocks --dir=build/stack/inputstream/v1beta1 --name=InputsClient 
 
 .PHONY: tidy
 tidy:

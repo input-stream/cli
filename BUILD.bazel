@@ -22,11 +22,13 @@ load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
 # gazelle:proto_rule proto_go_library implementation stackb:rules_proto:proto_go_library
 # gazelle:proto_rule proto_go_library deps @org_golang_google_protobuf//reflect/protoreflect
 # gazelle:proto_rule proto_go_library deps @org_golang_google_protobuf//runtime/protoimpl
+# gazelle:proto_rule proto_go_library deps @org_golang_google_protobuf//proto
 # gazelle:proto_rule proto_go_library visibility //visibility:public
 # gazelle:proto_language go plugin protoc-gen-go
 # gazelle:proto_language go plugin protoc-gen-go-grpc
-# gazelle:proto_language go rule proto_compiled_sources
-# gazelle:proto_language go rule proto_go_library
+# gazelle:proto_language go +rule proto_compiled_sources
+# gazelle:proto_language go -rule proto_compile
+# gazelle:proto_language go -rule proto_go_library
 # gazelle:proto_language go enabled true
 
 load("@build_stack_rules_proto//rules:proto_gazelle.bzl", "DEFAULT_LANGUAGES", "proto_gazelle")
@@ -41,10 +43,6 @@ proto_gazelle(
     cfgs = ["//:rules_proto_config.yaml"],
     command = "update",
     gazelle = ":gazelle-protobuf",
-    imports = [
-        "@googleapis//:imports.csv",
-        "@protoapis//:imports.csv",
-    ],
 )
 
 gazelle(

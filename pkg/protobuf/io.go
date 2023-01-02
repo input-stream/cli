@@ -2,6 +2,7 @@ package protobuf
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"path/filepath"
 
@@ -71,6 +72,20 @@ func WritePrettyJSONFile(filename string, message protoreflect.ProtoMessage) err
 		return fmt.Errorf("write: %w", err)
 	}
 	return nil
+}
+
+func WritePrettyJSON(out io.Writer, message protoreflect.ProtoMessage) error {
+	marshaler := protojson.MarshalOptions{
+		Multiline:       true,
+		Indent:          "  ",
+		EmitUnpopulated: false,
+	}
+	data, err := marshaler.Marshal(message)
+	if err != nil {
+		return err
+	}
+	_, err = out.Write(data)
+	return err
 }
 
 func WritePrettyTextFile(filename string, message protoreflect.ProtoMessage) error {

@@ -9,8 +9,8 @@ def googleapis():
         name = "googleapis",
         build_directives = [
             "gazelle:exclude google/example/endpointsapis/v1",
-            "gazelle:exclude google/cloud/recommendationengine/v1beta1",  # is this a bug?
             "gazelle:proto_language go enabled true",
+            "gazelle:exclude google/cloud/recommendationengine/v1beta1",  # is this a bug?
         ],
         build_file_expunge = True,
         build_file_proto_mode = "file",
@@ -27,8 +27,8 @@ def protoapis():
         name = "protoapis",
         build_directives = [
             "gazelle:exclude testdata",
-            "gazelle:exclude google/protobuf/compiler/ruby",
             "gazelle:proto_language go enable true",
+            "gazelle:exclude google/protobuf/compiler/ruby",
         ],
         build_file_expunge = True,
         build_file_proto_mode = "file",

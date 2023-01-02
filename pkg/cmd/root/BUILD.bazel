@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "root",
+    srcs = ["root.go"],
+    importpath = "github.com/input-stream/cli/pkg/cmd/root",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/cmd/input",
+        "//pkg/cmd/login",
+        "//pkg/config",
+        "//pkg/version",
+        "@com_github_makenowjust_heredoc//:heredoc",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)

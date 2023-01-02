@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "list",
+    srcs = ["list.go"],
+    importpath = "github.com/input-stream/cli/pkg/cmd/input/list",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//build/stack/inputstream/v1beta1",
+        "//pkg/config",
+        "@com_github_makenowjust_heredoc//:heredoc",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_test(
+    name = "list_test",
+    srcs = ["list_test.go"],
+    embed = [":list"],
+    deps = [
+        "//build/stack/inputstream/v1beta1",
+        "//mocks",
+        "//pkg/test",
+        "@com_github_google_go_cmp//cmp",
+        "@com_github_stretchr_testify//mock",
+    ],
+)

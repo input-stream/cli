@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "config",
+    srcs = ["config.go"],
+    importpath = "github.com/input-stream/cli/pkg/config",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//build/stack/auth/v1beta1",
+        "//build/stack/inputstream/v1beta1",
+        "@com_github_spf13_cobra//:cobra",
+        "@com_github_spf13_viper//:viper",
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_grpc//credentials",
+        "@org_golang_google_grpc//metadata",
+    ],
+)

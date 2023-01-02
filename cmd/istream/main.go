@@ -1,18 +1,19 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
+
+	"github.com/input-stream/cli/pkg/cmd/root"
 )
 
 func main() {
-	log.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
-
-	if err := run(os.Args[1:]); err != nil {
-		log.Fatal(err)
+	if err := mainRun(); err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(1)
 	}
 }
 
-func run(args []string) error {
-	return nil
+func mainRun() error {
+	return root.NewCmd().Execute()
 }

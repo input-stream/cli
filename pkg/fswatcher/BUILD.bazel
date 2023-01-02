@@ -1,0 +1,84 @@
+# Copyright 2017 The Bazel Authors. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "fswatcher",
+    srcs = [
+        "factory_darwin.go",
+        "factory_fsnotify.go",
+    ],
+    importpath = "github.com/input-stream/cli/pkg/fswatcher",
+    visibility = ["//:__subpackages__"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:aix": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:android": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:darwin": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsevents",
+        ],
+        "@io_bazel_rules_go//go/platform:dragonfly": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:freebsd": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:illumos": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:ios": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsevents",
+        ],
+        "@io_bazel_rules_go//go/platform:js": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:netbsd": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:openbsd": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:plan9": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:solaris": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "@io_bazel_rules_go//go/platform:windows": [
+            "//pkg/fswatcher/common",
+            "//pkg/fswatcher/fsnotify",
+        ],
+        "//conditions:default": [],
+    }),
+)

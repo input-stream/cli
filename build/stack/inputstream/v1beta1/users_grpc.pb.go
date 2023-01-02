@@ -33,7 +33,7 @@ func NewUsersClient(cc grpc.ClientConnInterface) UsersClient {
 
 func (c *usersClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := c.cc.Invoke(ctx, "/input.stream.v1beta1.Users/GetUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Users/GetUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (c *usersClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...g
 
 func (c *usersClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := c.cc.Invoke(ctx, "/input.stream.v1beta1.Users/UpdateUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Users/UpdateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *usersClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opt
 
 func (c *usersClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error) {
 	out := new(ListUsersResponse)
-	err := c.cc.Invoke(ctx, "/input.stream.v1beta1.Users/ListUsers", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/build.stack.inputstream.v1beta1.Users/ListUsers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func _Users_GetUser_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/input.stream.v1beta1.Users/GetUser",
+		FullMethod: "/build.stack.inputstream.v1beta1.Users/GetUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersServer).GetUser(ctx, req.(*GetUserRequest))
@@ -122,7 +122,7 @@ func _Users_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/input.stream.v1beta1.Users/UpdateUser",
+		FullMethod: "/build.stack.inputstream.v1beta1.Users/UpdateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersServer).UpdateUser(ctx, req.(*UpdateUserRequest))
@@ -140,7 +140,7 @@ func _Users_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/input.stream.v1beta1.Users/ListUsers",
+		FullMethod: "/build.stack.inputstream.v1beta1.Users/ListUsers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersServer).ListUsers(ctx, req.(*ListUsersRequest))
@@ -152,7 +152,7 @@ func _Users_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(int
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Users_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "input.stream.v1beta1.Users",
+	ServiceName: "build.stack.inputstream.v1beta1.Users",
 	HandlerType: (*UsersServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -169,5 +169,5 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "stream/input/v1beta1/users.proto",
+	Metadata: "build/stack/inputstream/v1beta1/users.proto",
 }
